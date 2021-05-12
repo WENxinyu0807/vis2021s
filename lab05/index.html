@@ -64,8 +64,7 @@
 			.attr("x", function(d){return x(d.Date);})
 			.attr("y", function(d){return y(d.Amount);})
 			.attr("width", x.bandwidth())
-			.attr("height", function(d){return height - y(d.Amount);})
-			.style("fill", "black");
+			.attr("height", 0);
 
 
 		svg.selectAll("text")
