@@ -66,10 +66,7 @@
 			.duration(1500)
 			.attr("width", x.bandwidth())
 			.attr("height", function(d){return height - y(d.Amount);})
-			.style("fill", function(d){
-				if (d.Amount == max)
-				return "red";
-			});
+			.style("fill", "black");
 
 
 		svg.selectAll("text")
