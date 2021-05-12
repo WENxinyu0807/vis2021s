@@ -63,7 +63,6 @@
 			.attr("class", "bar")
 			.attr("x", function(d){return x(d.Date);})
 			.attr("y", function(d){return y(d.Amount);})
-			.duration(1500)
 			.attr("width", x.bandwidth())
 			.attr("height", function(d){return height - y(d.Amount);})
 			.style("fill", "black");
