@@ -17,14 +17,14 @@
 	<script src="https://d3js.org/d3.v6.min.js" charset="utf-8"></script>
 </head>
 <body>
-
-
 	<script>
-
-		var margin = {top: 20, right: 20, buttom: 20, left: 20},
+		var margin = {top: 30, 
+			      right: 30, 
+			      buttom: 30, 
+			      left: 30},
 			width = window.innerWidth * 2/3,
 			height = window.innerHeight * 2/3,
-			fontSize = 16;
+			fontSize = 20;
 
 		var svg = d3.select("body").append("svg")
 					.attr("width", width + margin.right + margin.left)
@@ -64,11 +64,7 @@
 			.attr("x", function(d){return x(d.Date);})
 			.attr("y", function(d){return y(d.Amount);})
 			.attr("width", x.bandwidth())
-			.attr("height", function(d){return height - y(d.Amount);})
-			.style("fill", function(d){
-				if (d.Amount == max)
-				return "red";
-			});
+			.attr("height", function(d){return height - y(d.Amount);});
 
 
 		svg.selectAll("text")
