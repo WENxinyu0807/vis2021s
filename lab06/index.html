@@ -69,15 +69,14 @@ var text = d3.text("data.csv", function(data){
     });
   }));
 
-    // set x scale
-    var x = d3.scaleBand()
-        .rangeRound([0, width])
-        .paddingInner(0.05)
-        .align(0.1);
+// Set x, y and colors
+var x = d3.scale.ordinal()
+  .domain(dataset[0].map(function(d) { return d.x; }))
+  .rangeRoundBands([10, width-10], 0.02);
 
-    // set y scale
-    var y = d3.scaleLinear()
-        .rangeRound([height, 0]);
+var y = d3.scale.linear()
+  .domain([0, d3.max(dataset, function(d) {  return d3.max(d, function(d) { return d.y0 + d.y; });  })])
+  .range([height, 0]);
 
 var colors = ["#ddff00", "#6fff00", "#00ffbb", "#007bff", "#bf00ff"];
 
@@ -180,17 +179,17 @@ var tooltip = svg.append("g")
   .style("display", "none");
 
 tooltip.append("rect")
-  .attr("width", 60)
+  .attr("width", 30)
   .attr("height", 20)
   .attr("fill", "white")
   .style("opacity", 0.5);
 
 tooltip.append("text")
-  .attr("x", 30)
+  .attr("x", 15)
   .attr("dy", "1.2em")
   .style("text-anchor", "middle")
-  .attr("font-size", "20px")
-  .attr("font-weight", "normal");
+  .attr("font-size", "12px")
+  .attr("font-weight", "bold");
     
 })
 
