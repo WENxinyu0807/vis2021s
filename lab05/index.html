@@ -76,29 +76,11 @@
 			.attr("y", function(d){return y(d.Amount) - 2;})
 			.attr("font-family", "Noto serif TC")
 			.attr("font-size", "16px");
-		            // add the y Axis
-		    svg.append("g")
+		// add the y Axis
+		svg.append("g")
 			.attr("id", "yaxis")
 			.attr("class", "textset")
 			.call(d3.axisLeft(y));
-
-		    // Animation
-		    svg.selectAll("#amt")
-			.transition()
-			.attr("font-size", fontSize + "px");
-
-		    svg.select("#xaxis")
-			.selectAll("text")
-
-		    svg.select("#yaxis")
-			.selectAll("text")
-
-		    svg.selectAll("rect")
-			.transition()
-			.attr("y", function (d) { return y(d.Prob); })
-			.attr("height", function (d) { return height - y(d.Prob); })
-
-
 		console.log(data);
 
 		});
