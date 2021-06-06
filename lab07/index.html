@@ -1,63 +1,62 @@
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
-
 <head>
-  <meta charset="utf-8">
-  <title>Lab 7</title>
-  <link rel="stylesheet" href="index.css" type="text/css">
-  <script src="https://d3js.org/d3.v6.min.js" charset="utf-8"></script> <!-- v6.5.0 -->
+    <meta charset="utf-8">
+    <title>Lab 7</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@900&display=swap');
 
+        h1, div {
+          background-color: rgba(255, 255, 0, 0.1);
+          font-family: 'Noto Serif JP', serif;
+          font-size: 24pt;
+          border: solid 1px black;
+          width: 90%;
+          margin: 5px auto;
+          padding: 10px;
+        }
 
+        div {
+          font-size: 12pt;
+        }
+        
+        body {
+            background-color: rgba(255, 128, 255, 0.1);
+        }
+
+    </style>
+    <script src="https://d3js.org/d3.v6.min.js" charset="utf-8"></script> <!-- v6.5.0 -->
 </head>
-
 <body>
-  <h1>
-    lab07 漢字變形 Path Transitions
-  </h1>
-  <div>
-    限定使用 D3.js，參考以下影片。
-    <ul>
-      <li><a href="https://bocoup.com/blog/improving-d3-path-animation">Improving D3 Path Animation</a></li>
-      <li><a href="https://bost.ocks.org/mike/path/">https://bost.ocks.org/mike/path/</a></li>
-    </ul>
-  </div>
+    <h1>
+        lab07 漢字變形 Path Transitions
+    </h1>
+    <div>
+      限定使用 D3.js，參考以下影片。
+    	<ul>
+    		<li><a href="https://bocoup.com/blog/improving-d3-path-animation">Improving D3 Path Animation</a></li>
+    		<li><a href="https://bost.ocks.org/mike/path/">https://bost.ocks.org/mike/path/</a></li>
+    	</ul>
+    </div>
 
-  <div>
-    <video width="400" controls loop autoplay>
-      <source src="2.mp4" type="video/mp4">
-    </video>
-  </div>
-  <div id="svg-word"></div>
-  <div id="exhibition-area1">
-    展示區 (姓名)
-    <hr>
-    <img width="256" src="./温.svg">
-    <img width="256" src="./心.svg">
-    <img width="256" src="./瑜.svg">
-    <hr>
-    <object data="温.svg" id="wen" width="256" type="image/svg+xml"></object>
-    <object data="心.svg" id="xin" width="256" type="image/svg+xml"></object>
-    <object data="瑜.svg" id="yu" width="256" type="image/svg+xml"></object>
-    <hr>
+    <div>
+  		<video width="400" controls loop autoplay>
+  		  <source src="2.mp4" type="video/mp4">
+  		</video>
+    </div>
 
+    <div>
+        展示區 (姓名)
+        <div style="width:256px;display:inline-block" id="first"></div>
+        <div style="width:256px;display:inline-block" id="second"></div>
+        <div style="width:256px;display:inline-block" id="third"></div>
+    </div>
 
-  </div>
-
-
-
-  <div id="dropfile">
-    Drag and Drop 展示區 (接收任何SVG)
-  </div>
-
-  <div id="exhibition-area2">
-
-  </div>
-  <script type="text/javascript">
-
-
-  </script>
-
-
+    <div id="dropfile">
+        <p>Drag and Drop 展示區 (接收任何SVG) (Click to restart)</p>
+        <div id="svgimage">
+        </div>
+    </div>
     <script type="text/javascript">
         
       // Your beautiful D3 code will go here
@@ -72,7 +71,7 @@
 
             document.getElementById('dropfile').addEventListener('drop', (evt) => {
                 evt.preventDefault()
-                var files = evt.dataTransfer.files; // FileList object.
+                var files = evt.dataTransfer.files; 
                 console.log(files)
                 loadWord(files, '#svgimage', 0);
             })
@@ -225,28 +224,21 @@
         }
 
         function convertor(newpath) {
-
             newpath = spellCheck(newpath)
-
             var stroke, pointSizes, orders;
             [stroke, pointSizes, orders] = strokeGenerator(newpath);
             var maxindex = findMaxIndex(pointSizes);
             var path = ""
-            
             for (var i = 1, radius = 64; i < stroke.length; i++) {
                 path = path + "M";
                 var gap = Math.PI * 2 / pointSizes[i-1];
                 var angle = 0;
                 if (i == maxindex+1) {
-                //if (true) {
                     path = path
                         + (radius * (Math.cos(angle)) + radius*2) + " "
                         + (radius * (Math.sin(angle)) + radius*2) + " ";
                     angle = angle + gap;
-
                     for (var j = 1, order = orders[i - 1]; j < order.length; j++) {
-
-
                         if (order[j] == 'q') {
                             path = path + ' q ';
                             var r = radius / Math.cos(gap / 2);
@@ -299,6 +291,7 @@
                         }
                     }
                 }
+		    
                 else {
                     path = path
                         + (radius * (Math.cos(0)) + radius) + " "
@@ -307,7 +300,6 @@
                     for (var j = 1, order = orders[i - 1]; j < order.length; j++) {
                         if (order[j] == 'q') {
                             path = path + ' q ';
-
                             path = path + (0) + " " + (0) + " ";
                             path = path + (0) + " " + (0) + " ";
                         }
@@ -334,35 +326,27 @@
                         }
                     }
                 }
-
                 path = path + "z";
             }
             return path
         }
-
+	    
         function convertor2(newpath) {
-
             newpath = spellCheck(newpath)
-
             var stroke, pointSizes, orders;
             [stroke, pointSizes, orders] = strokeGenerator(newpath);
             var maxindex = findMaxIndex(pointSizes);
             var path = ""
-
             for (var i = 1, radius = 64; i < stroke.length; i++) {
                 path = path + "M";
                 var gap = Math.PI * 2 / pointSizes[i - 1];
                 var angle = 0;
-                
                 if (true) {
                     path = path
                         + (radius * (Math.cos(angle)) + radius * 2) + " "
                         + (radius * (Math.sin(angle)) + radius * 2) + " ";
                     angle = angle + gap;
-
                     for (var j = 1, order = orders[i - 1]; j < order.length; j++) {
-
-
                         if (order[j] == 'q') {
                             path = path + ' q ';
                             var r = radius / Math.cos(gap / 2);
@@ -398,7 +382,6 @@
                                     + (0) + " "
                                     + (0) + " ";
                             }
-
                         }
                         else if (order[j] == 'l') {
                             path = path + 'l';
@@ -450,7 +433,6 @@
                         }
                     }
                 }
-
                 path = path + "z";
             }
             return path
@@ -461,10 +443,6 @@
 
             for (var i = 0, f; f = files[i]; i++) {
                 output = [];
-                //alert(f.name)
-                //ext = f.name.substring(f.name.lastIndexOf(".") + 1);
-                //console.log('ext = ' + ext);
-
                 output.push('<li><strong>',
                     escape(f.name),
                     '</strong>',
@@ -473,28 +451,14 @@
                     ' bytes, last modified: ',
                     f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a',
                     '</li>');
-                //alert(output)
 
-
-                // https://www.html5rocks.com/en/tutorials/file/dndfiles//
-                // Only process image files.
-                // f.mimetype.match('text.*|image.*|application.*')
                 if (!f.type.match('image.svg')) {
                     alert('Not a SVG!')
-                    continue; // skip rest of the codes
+                    continue; 
                 }
-                //else {
-                //  alert('It is a SVG!')
-                //}
 
                 let reader = new FileReader();
-
-                // Read in the image file as a data URL.
-                //reader.readAsDataURL(f);
                 reader.readAsText(files[0], 'UTF-8');
-                // https://www.html5rocks.com/en/tutorials/file/dndfiles//
-
-                // Closure to capture the file information.
                 reader.onload = func
             }
         }
@@ -511,6 +475,4 @@
             request.send();
         }
     </script>
-	
-</html>
-
+  </html>
